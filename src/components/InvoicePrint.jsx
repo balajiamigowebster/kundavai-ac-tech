@@ -224,6 +224,35 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
     parsedItems = [];
   }
 
+  const serviceNameLower = (invoice.service_name || '').toLowerCase();
+  const isPump = serviceNameLower.includes('pump');
+  const isGas = serviceNameLower.includes('gas');
+  const isGeneral = serviceNameLower.includes('general');
+  const isFree = serviceNameLower.includes('free');
+  const isDismantle = serviceNameLower.includes('dismantle');
+  const isInstall = serviceNameLower.includes('install') || serviceNameLower.includes('installation');
+  const isPcb = serviceNameLower.includes('pcb');
+  const isAmc = serviceNameLower.includes('amc');
+
+  const renderCheckbox = (label, checked) => (
+    <div style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', fontSize: '0.88em', marginRight: '6px' }}>
+      <span style={{
+        display: 'inline-block',
+        width: '10px',
+        height: '10px',
+        border: '1px solid #111',
+        textAlign: 'center',
+        lineHeight: '8px',
+        fontSize: '8px',
+        fontWeight: 'bold',
+        backgroundColor: checked ? '#f1f5f9' : '#fff'
+      }}>
+        {checked ? '✓' : ''}
+      </span>
+      <span style={{ whiteSpace: 'nowrap' }}>{label}</span>
+    </div>
+  );
+
   // Fallback for older invoice entries
   if (parsedItems.length === 0) {
     parsedItems = [
@@ -295,390 +324,368 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
 
         {/* Invoice Printable Sheet */}
         <div ref={printableRef} className="invoice-modal-body printable-invoice" style={{
-          padding: '12px 20px',
+          padding: '16px 20px',
           backgroundColor: '#ffffff',
-          color: '#333333',
+          color: '#111111',
           fontFamily: "'Inter', sans-serif",
-          fontSize: '8px',
+          fontSize: '9px',
           lineHeight: '1.3'
         }}>
-          <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '6px' }}>
           
-          {/* Header Grid */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-            {/* Left Company Block */}
-            <div style={{ width: '55%' }}>
-              <div style={{
-                backgroundColor: '#3b4b5a',
-                color: '#ffffff',
-                padding: '4px 16px',
-                fontWeight: '700',
-                fontSize: '1.25em',
-                letterSpacing: '1px',
-                width: '150px',
-                textAlign: 'center',
-                borderRadius: '2px',
-                marginBottom: '6px'
-              }}>
-                INVOICE
+            {/* Header Block */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '6px', borderBottom: '2px solid #111' }}>
+              {/* Left Logo & Brand */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <img 
+                  src="/logo.png" 
+                  alt="Kundavai AC Tec Logo" 
+                  style={{ 
+                    maxHeight: '44px', 
+                    width: 'auto', 
+                    objectFit: 'contain'
+                  }} 
+                />
+                <div>
+                  <h2 style={{ fontSize: '1.65em', fontWeight: 800, color: '#111', margin: 0, fontFamily: "'Outfit', sans-serif", letterSpacing: '0.5px' }}>
+                    Kundavai AC Tec
+                  </h2>
+                  <p style={{ fontSize: '0.85em', fontWeight: '700', color: '#333', margin: '2px 0 0 0', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    Multi Brand AC Sales & Service
+                  </p>
+                </div>
               </div>
-              <h2 style={{ fontSize: '1.75em', fontWeight: 800, color: '#111', lineHeight: '1.2', marginBottom: '4px', fontFamily: "'Outfit', sans-serif" }}>
-                Kundavai AC Tec
-              </h2>
-              <div style={{ color: '#333', fontSize: '1.2em', lineHeight: '1.45' }}>
-                <p>Plot No 6 Anna Main Road Vengambakkam,</p>
-                <p>Chennai - 600128</p>
-                <p style={{ marginTop: '1px' }}>Mob: 9445332233</p>
-                <p>Email: balaji@kundavaiactec.com</p>
+
+              {/* Right Address & Contact Details */}
+              <div style={{ textAlign: 'right', fontSize: '0.88em', lineHeight: '1.3', color: '#333' }}>
+                <p style={{ margin: 0 }}>SF No.93, Sri Vari Ramakrishna Garden,</p>
+                <p style={{ margin: 0 }}>Ganapathy, Coimbatore - 641 006.</p>
+                <p style={{ margin: '1px 0 0 0', fontWeight: '600' }}>Mob: +91 98941 45664 | +91 82204 06664</p>
+                <p style={{ margin: 0 }}>Email: sarwinairconditioner@gmail.com | Web: www.sarwinac.com</p>
+                <p style={{ margin: '1px 0 0 0', fontWeight: 'bold' }}>GSTIN: 33AYBPV8200A1ZX</p>
               </div>
             </div>
 
-            {/* Right Logo Block (AMIGO WEBSTER Logo image) */}
-            <div style={{ width: '40%', textAlign: 'right', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-              <img 
-                src="/logo.png" 
-                alt="Kundavai AC Tec Logo" 
-                style={{ 
-                  maxHeight: '48px', 
-                  width: 'auto', 
-                  marginBottom: '6px',
-                  objectFit: 'contain'
-                }} 
-              />
-            </div>
-          </div>
-
-          {/* Metadata & Billing Address Row */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', marginBottom: '8px' }}>
-            
-            {/* BILL TO Client Box */}
-            <div style={{
-              width: '58%',
-              border: 'none',
-              borderRadius: '4px',
-              padding: '8px 10px',
+            {/* Metadata Row */}
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              border: '1px solid #111', 
+              fontSize: '0.95em',
+              fontWeight: '700',
               backgroundColor: '#f8fafc'
             }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.92em' }}>
-                <tbody>
-                  <tr>
-                    <td style={{ width: '30%', padding: '2px 0', color: '#475569', fontWeight: 700 }}>BILL TO:</td>
-                    <td style={{ padding: '2px 0 2px 4px', fontWeight: '700', color: '#1e293b', borderBottom: '1px solid #cbd5e1' }}>{invoice.customer_name}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600 }}>Company Name</td>
-                    <td style={{ padding: '2px 0 2px 4px', fontWeight: '700', color: '#1e293b', borderBottom: '1px solid #cbd5e1' }}>{invoice.customer_name}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600, verticalAlign: 'top', paddingTop: '2px' }}>Address</td>
-                    <td style={{ 
-                      padding: '2px 0 2px 4px', 
-                      color: '#333', 
-                      lineHeight: '18px',
-                      backgroundImage: 'linear-gradient(to bottom, transparent 17px, #cbd5e1 17px)',
-                      backgroundSize: '100% 18px',
-                      whiteSpace: 'normal', 
-                      wordBreak: 'break-word' 
-                    }}>
-                      {invoice.address || 'No. 303, C Block, Sapthagiri Sandalwood, Krishnarajapuram, Kadugodi, Bengaluru,'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600 }}>Pincode</td>
-                    <td style={{ padding: '2px 0 2px 4px', color: '#333', borderBottom: '1px solid #cbd5e1' }}>{invoice.pincode || '560067'}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600 }}>State</td>
-                    <td style={{ padding: '2px 0 2px 4px', color: '#333', borderBottom: '1px solid #cbd5e1' }}>
-                      {getStateFromCity(invoice.city)}
-                    </td>
-                  </tr>
-                  {invoice.gst_no && invoice.gst_no.trim() !== '' && (
-                    <tr>
-                      <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600 }}>GST</td>
-                      <td style={{ padding: '2px 0 2px 4px', color: '#333', borderBottom: '1px solid #cbd5e1' }}>
-                        {invoice.gst_no}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+              <div style={{ padding: '4px 8px', width: '33%' }}>
+                INV NO : <span style={{ fontWeight: '800', color: '#111' }}>{invoice.invoice_no}</span>
+              </div>
+              <div style={{ padding: '4px 8px', width: '33%', textAlign: 'center', borderLeft: '1px solid #111', borderRight: '1px solid #111', letterSpacing: '1px' }}>
+                SERVICE REPORT
+              </div>
+              <div style={{ padding: '4px 8px', width: '33%', textAlign: 'right' }}>
+                DATE : {new Date(invoice.invoice_date).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit' })}
+              </div>
             </div>
 
-            {/* Invoice Details Table */}
-            <div style={{ width: '38%' }}>
-              <table style={{ 
-                width: '100%', 
-                borderCollapse: 'collapse', 
-                border: '1px solid #cbd5e1', 
-                fontSize: '0.88em',
-                textAlign: 'left'
+            {/* Service Type Checkboxes Row */}
+            <div style={{ 
+              display: 'flex', 
+              borderLeft: '1px solid #111', 
+              borderRight: '1px solid #111', 
+              borderBottom: '1px solid #111'
+            }}>
+              {/* Checkboxes List */}
+              <div style={{ width: '80%', padding: '6px 8px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px' }}>
+                {renderCheckbox('FREE SERVICE', isFree)}
+                {renderCheckbox('GENERAL SERVICE', isGeneral)}
+                {renderCheckbox('PUMP SERVICE', isPump)}
+                {renderCheckbox('GAS FILLING', isGas)}
+                {renderCheckbox('DISMANTLE', isDismantle)}
+                {renderCheckbox('INSTALLATION', isInstall)}
+                {renderCheckbox('PCB BOARD', isPcb)}
+                {renderCheckbox('AMC', isAmc)}
+              </div>
+              
+              {/* Time Blocks */}
+              <div style={{ 
+                width: '20%', 
+                borderLeft: '1px solid #111', 
+                padding: '4px 8px', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                justifyContent: 'center',
+                gap: '2px',
+                fontSize: '0.85em',
+                fontWeight: '600'
               }}>
-                <tbody>
-                  {[
-                    { label: 'Invoice #', val: invoice.invoice_no },
-                    { label: 'Invoice Date', val: new Date(invoice.invoice_date).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }) },
-                    { label: 'Quotation #', val: '—' },
-                    { label: 'Quotation Date', val: '—' },
-                    { label: 'PO Reference', val: '—' },
-                    { label: 'PO Date', val: '—' },
-                    { label: 'Vendor Code', val: '—' }
-                  ].map((row, idx) => (
-                    <tr key={idx}>
-                      <th style={{ 
-                        padding: '3px 6px', 
-                        fontWeight: '600', 
-                        color: '#333', 
-                        border: '1px solid #cbd5e1',
-                        backgroundColor: '#ffffff',
-                        width: '50%',
-                        whiteSpace: 'normal' 
-                      }}>
-                        {row.label}
-                      </th>
-                      <td style={{ 
-                        padding: '3px 6px', 
-                        color: '#1e293b', 
-                        fontWeight: '600', 
-                        textAlign: 'center', 
-                        border: '1px solid #cbd5e1',
-                        whiteSpace: 'normal' 
-                      }}>
-                        {row.val}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                <div>IN TIME : <span style={{ fontWeight: 'normal' }}>1:10 PM</span></div>
+                <div>OUT TIME : <span style={{ fontWeight: 'normal' }}>3:50 PM</span></div>
+              </div>
             </div>
-          </div>
 
-          {/* Description Itemized Table */}
-          <table style={{ 
-            width: '100%', 
-            borderCollapse: 'collapse', 
-            border: '1px solid #cbd5e1', 
-            marginBottom: '8px'
-          }}>
-            <thead>
-              <tr style={{ backgroundColor: '#3b4b5a', color: '#ffffff' }}>
-                <th style={{ padding: '6px 4px', fontSize: '11px', fontWeight: '700', textAlign: 'center', border: '1px solid #cbd5e1', width: '8%', whiteSpace: 'normal' }}>S. NO</th>
-                <th style={{ padding: '6px 4px', fontSize: '11px', fontWeight: '700', textAlign: 'left', border: '1px solid #cbd5e1', width: '52%', whiteSpace: 'normal' }}>DESCRIPTION OF ITEMS</th>
-                <th style={{ padding: '6px 4px', fontSize: '11px', fontWeight: '700', textAlign: 'center', border: '1px solid #cbd5e1', width: '12%', whiteSpace: 'normal' }}>HSN / SAC</th>
-                <th style={{ padding: '6px 4px', fontSize: '11px', fontWeight: '700', textAlign: 'center', border: '1px solid #cbd5e1', width: '8%', whiteSpace: 'normal' }}>QTY</th>
-                <th style={{ padding: '6px 4px', fontSize: '11px', fontWeight: '700', textAlign: 'right', border: '1px solid #cbd5e1', width: '10%', whiteSpace: 'normal' }}>PRICE</th>
-                <th style={{ padding: '6px 4px', fontSize: '11px', fontWeight: '700', textAlign: 'right', border: '1px solid #cbd5e1', width: '10%', whiteSpace: 'normal' }}>AMOUNT</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* Service scope message row inside table body - right below table headers and before first product row */}
-              <tr>
-                <td colSpan={6} style={{ 
-                  padding: '6px 8px', 
-                  borderBottom: '1px solid #cbd5e1', 
-                  fontSize: '0.95em', 
-                  lineHeight: '1.3', 
-                  color: '#111',
-                  backgroundColor: '#ffffff',
-                  textAlign: 'left'
-                }}>
-                  Towards the charges of Design and Development
-                  <br />
-                  <strong style={{ color: '#111', fontSize: '1em' }}>
-                    {invoice.project_brief || invoice.service_name || 'SEO Audit & Optimization'}
-                  </strong>
-                </td>
-              </tr>
-              {parsedItems.map((item, idx) => (
-                <tr key={idx} style={{ verticalAlign: 'top', backgroundColor: idx % 2 === 1 ? '#f8fafc' : '#ffffff' }}>
-                  <td style={{ padding: '4px 6px', textAlign: 'center', borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1', whiteSpace: 'normal' }}>{idx + 1}</td>
-                  <td style={{ padding: '4px 6px', color: '#1e293b', borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1', whiteSpace: 'normal', wordBreak: 'break-word' }}>
-                    <div style={{ fontWeight: '600' }}>{item.title}</div>
-                    {item.description && (
-                      <div style={{ fontSize: '0.82em', color: '#64748b', marginTop: '1px', fontWeight: 'normal' }}>
-                        {item.description}
-                      </div>
-                    )}
-                  </td>
-                  <td style={{ padding: '4px 6px', textAlign: 'center', color: '#475569', borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1', whiteSpace: 'normal' }}>998382</td>
-                  <td style={{ padding: '4px 6px', textAlign: 'center', borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1', whiteSpace: 'normal' }}>{item.qty}</td>
-                  <td style={{ padding: '4px 6px', textAlign: 'right', fontWeight: '500', borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1', whiteSpace: 'normal' }}>
-                    {formatCurrency(item.rate)}
-                  </td>
-                  <td style={{ padding: '4px 6px', textAlign: 'right', fontWeight: '600', borderBottom: '1px solid #cbd5e1', whiteSpace: 'normal' }}>
-                    {formatCurrency(item.amount)}
-                  </td>
+            {/* Customer & Engineer Details Row */}
+            <div style={{ 
+              display: 'flex', 
+              borderLeft: '1px solid #111', 
+              borderRight: '1px solid #111', 
+              borderBottom: '1px solid #111'
+            }}>
+              {/* Customer Box */}
+              <div style={{ width: '60%', padding: '6px 8px', borderRight: '1px solid #111' }}>
+                <div style={{ fontWeight: '800', textTransform: 'uppercase', fontSize: '0.85em', color: '#475569', marginBottom: '4px' }}>
+                  CUSTOMER NAME & ADDRESS
+                </div>
+                <div style={{ fontSize: '0.95em', fontWeight: '700', color: '#111' }}>
+                  {invoice.customer_name}
+                </div>
+                <div style={{ fontSize: '0.9em', color: '#333', marginTop: '2px', lineHeight: '1.2' }}>
+                  {invoice.address || 'Chetti St, Ashok Nagar, Chennai'}
+                </div>
+                <div style={{ fontSize: '0.9em', fontWeight: '700', marginTop: '6px', display: 'flex', alignItems: 'center' }}>
+                  Whatsapp No. <span style={{ fontWeight: '800', marginLeft: '6px', color: '#111' }}>{invoice.mobile_number || '9842521551'}</span>
+                </div>
+              </div>
+
+              {/* Engineer Box */}
+              <div style={{ width: '40%', padding: '6px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontSize: '0.85em', fontWeight: '800', color: '#475569', marginBottom: '2px' }}>SERVICE ENGG NAME</div>
+                  <div style={{ fontSize: '0.95em', fontWeight: '700', color: '#111' }}>
+                    {invoice.assigned_lead || 'Arunkumar / Williams'}
+                  </div>
+                </div>
+                <div style={{ borderTop: '1px solid #ddd', paddingTop: '4px', display: 'flex', justifyContent: 'space-between', fontSize: '0.85em', fontWeight: '600' }}>
+                  <div>VOLTAGE: <span style={{ fontWeight: 'normal' }}>230 V</span></div>
+                  <div>AMPS: <span style={{ fontWeight: 'normal' }}>6.2 A</span></div>
+                </div>
+                <div style={{ fontSize: '0.85em', fontWeight: '600' }}>
+                  SUCTION PRESSURE: <span style={{ fontWeight: 'normal' }}>65 PSI</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Observations, Complaint and Date Row */}
+            <div style={{ 
+              display: 'flex', 
+              borderLeft: '1px solid #111', 
+              borderRight: '1px solid #111', 
+              borderBottom: '1px solid #111'
+            }}>
+              {/* Col 1 */}
+              <div style={{ width: '50%', padding: '4px 8px', borderRight: '1px solid #111' }}>
+                <div style={{ fontSize: '0.78em', fontWeight: '800', color: '#475569', marginBottom: '2px' }}>OBSERVATION, REPORT & ACTIONS</div>
+                <div style={{ fontSize: '0.88em', color: '#111', lineHeight: '1.2' }}>
+                  {invoice.project_brief || 'AC unit serviced. Cooling and airflow restored successfully. Water leakage checked & resolved.'}
+                </div>
+              </div>
+              {/* Col 2 */}
+              <div style={{ width: '25%', padding: '4px 8px', borderRight: '1px solid #111', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontSize: '0.78em', fontWeight: '800', color: '#475569' }}>PRODUCT MODEL NO.</div>
+                  <div style={{ fontSize: '0.88em', fontWeight: '600', color: '#111', marginTop: '2px' }}>Voltas Split AC 1.5T</div>
+                </div>
+                <div style={{ borderTop: '1px dotted #ccc', paddingTop: '2px' }}>
+                  <div style={{ fontSize: '0.75em', fontWeight: '800', color: '#475569' }}>PCB BOARD MODEL</div>
+                  <div style={{ fontSize: '0.85em', color: '#111' }}>—</div>
+                </div>
+              </div>
+              {/* Col 3 */}
+              <div style={{ width: '25%', padding: '4px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontSize: '0.78em', fontWeight: '800', color: '#475569' }}>NEXT SERVICE DATE</div>
+                  <div style={{ fontSize: '0.88em', fontWeight: '700', color: '#111', marginTop: '2px' }}>
+                    {new Date(new Date(invoice.invoice_date).setMonth(new Date(invoice.invoice_date).getMonth() + 6)).toLocaleDateString('en-IN')}
+                  </div>
+                </div>
+                <div style={{ borderTop: '1px dotted #ccc', paddingTop: '2px', display: 'flex', justifyContent: 'space-between', fontSize: '0.75em' }}>
+                  <div>COMPLAINT: <span style={{ fontWeight: '600' }}>{new Date(invoice.invoice_date).toLocaleDateString('en-IN')}</span></div>
+                  <div>DELIVERY: <span style={{ fontWeight: '600' }}>{new Date(invoice.invoice_date).toLocaleDateString('en-IN')}</span></div>
+                </div>
+              </div>
+            </div>
+
+            {/* Line Items Table */}
+            <table style={{ 
+              width: '100%', 
+              borderCollapse: 'collapse', 
+              border: '1px solid #111', 
+              marginTop: '4px',
+              fontSize: '0.92em'
+            }}>
+              <thead>
+                <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #111' }}>
+                  <th style={{ padding: '5px 4px', fontWeight: '800', textAlign: 'center', borderRight: '1px solid #111', width: '8%' }}>S.NO</th>
+                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'left', borderRight: '1px solid #111', width: '48%' }}>DESCRIPTION</th>
+                  <th style={{ padding: '5px 4px', fontWeight: '800', textAlign: 'center', borderRight: '1px solid #111', width: '8%' }}>QTY</th>
+                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'right', borderRight: '1px solid #111', width: '13%' }}>RATE</th>
+                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'right', borderRight: '1px solid #111', width: '13%' }}>TOTAL VALUE</th>
+                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'center', width: '10%' }}>TOWARDS Rs.</th>
                 </tr>
-              ))}
-              {/* Fill mock empty rows to match paper layout look (Guarantees at least 6 line items space!) */}
-              {Array.from({ length: Math.max(0, 6 - parsedItems.length) }).map((_, idx) => {
-                const globalIdx = parsedItems.length + idx;
-                return (
-                  <tr key={`empty-${idx}`} style={{ height: '18px', backgroundColor: globalIdx % 2 === 0 ? '#f8fafc' : '#ffffff' }}>
-                    <td style={{ borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1' }}></td>
-                    <td style={{ borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1' }}></td>
-                    <td style={{ borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1' }}></td>
-                    <td style={{ borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1' }}></td>
-                    <td style={{ borderRight: '1px solid #cbd5e1', borderBottom: '1px solid #cbd5e1' }}></td>
-                    <td style={{ borderBottom: '1px solid #cbd5e1' }}></td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          {/* Footer Grid - Banks and Totals */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' }}>
-            
-            {/* Left Column: Customer Code and Signatures */}
-            <div style={{ width: '58%', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', fontSize: '0.92em', borderBottom: '1px solid #cbd5e1', paddingBottom: '2px' }}>
-                <span style={{ color: '#475569', fontWeight: 600 }}>Customer Code:</span>
-                <strong style={{ marginLeft: '8px', color: '#111' }}>{invoice.customer_id_seq}</strong>
-              </div>
-
-              {/* Signatures on the left */}
-              <div style={{ marginTop: '8px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                <div style={{ borderBottom: '1px solid #cbd5e1', width: '200px', display: 'flex', justifyContent: 'space-between', fontSize: '0.92em', paddingBottom: '2px' }}>
-                  <span style={{ color: '#475569', fontWeight: 600 }}>Customer :</span>
-                  <span></span>
-                </div>
-                <div style={{ borderBottom: '1px solid #cbd5e1', width: '200px', display: 'flex', justifyContent: 'space-between', fontSize: '0.92em', paddingBottom: '2px', marginTop: '4px' }}>
-                  <span style={{ color: '#475569', fontWeight: 600 }}>Authorized Signatory</span>
-                  <span></span>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Totals details */}
-            <div style={{ width: '38%' }}>
-              <table style={{ 
-                width: '100%', 
-                borderCollapse: 'collapse', 
-                fontSize: '0.92em',
-                lineHeight: '1.4'
-              }}>
-                <tbody>
-                  <tr style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #cbd5e1' }}>
-                    <td style={{ padding: '3px 6px', color: '#475569', fontWeight: 500 }}>Sub Total</td>
-                    <td style={{ padding: '3px 6px', textAlign: 'right', fontWeight: '600' }}>
-                      {formatCurrency(subTotal)}
-                    </td>
-                  </tr>
-                  <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #cbd5e1' }}>
-                    <td style={{ padding: '3px 6px', color: '#475569', fontWeight: 500, display: 'flex', justifyContent: 'space-between' }}>
-                      <span>Discount</span>
-                      <span style={{ fontSize: '0.82em', color: '#64748b' }}>₹ 0</span>
-                    </td>
-                    <td style={{ padding: '3px 6px', textAlign: 'right', fontWeight: '600' }}>
-                      ₹ 0
-                    </td>
-                  </tr>
-                  <tr style={{ backgroundColor: '#ffffff', borderBottom: '1px solid #cbd5e1' }}>
-                    <td style={{ padding: '3px 6px', color: '#475569', fontWeight: 500, display: 'flex', justifyContent: 'space-between' }}>
-                      <span>CGST</span>
-                      <span style={{ fontSize: '0.82em', color: '#64748b' }}>{cgstRate}%</span>
-                    </td>
-                    <td style={{ padding: '3px 6px', textAlign: 'right', fontWeight: '600' }}>
-                      {formatCurrency(cgstAmount)}
-                    </td>
-                  </tr>
-                  <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #cbd5e1' }}>
-                    <td style={{ padding: '3px 6px', color: '#475569', fontWeight: 500, display: 'flex', justifyContent: 'space-between' }}>
-                      <span>SGST</span>
-                      <span style={{ fontSize: '0.82em', color: '#64748b' }}>{sgstRate}%</span>
-                    </td>
-                    <td style={{ padding: '3px 6px', textAlign: 'right', fontWeight: '600' }}>
-                      {formatCurrency(sgstAmount)}
-                    </td>
-                  </tr>
-                  <tr style={{ backgroundColor: '#ffffff', borderBottom: '1.2px solid #cbd5e1' }}>
-                    <td style={{ padding: '3px 6px', color: '#475569', fontWeight: 500, display: 'flex', justifyContent: 'space-between' }}>
-                      <span>IGST</span>
-                      <span style={{ fontSize: '0.82em', color: '#64748b' }}>{igstRate}%</span>
-                    </td>
-                    <td style={{ padding: '3px 6px', textAlign: 'right', fontWeight: '600' }}>
-                      {formatCurrency(igstAmount)}
-                    </td>
-                  </tr>
-                  <tr style={{ backgroundColor: '#f8fafc', fontSize: '1.02em', fontWeight: '800' }}>
-                    <td style={{ padding: '4px 6px', color: '#2b3e50' }}>Grand Total</td>
-                    <td style={{ padding: '4px 6px', textAlign: 'right', color: '#2b3e50' }}>
-                      {formatCurrency(grandTotal)}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          {/* Remarks and Signatures section */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', marginTop: '10px', alignItems: 'flex-end' }}>
-            
-            {/* Remarks Box */}
-            <div style={{ width: '58%' }}>
-              <div style={{ fontSize: '0.85em', fontWeight: '700', color: '#475569', marginBottom: '2px' }}>Remarks / Declaration</div>
-              <div style={{
-                border: '1px solid #cbd5e1',
-                borderRadius: '2px',
-                height: '42px',
-                padding: '4px 6px',
-                fontSize: '0.8em',
-                color: '#333',
-                lineHeight: '1.3'
-              }}>
-                1. Please remit payments within 15 days of invoice date.
-                <br />
-                2. Goods/Services once delivered are subject to contract terms.
-              </div>
-            </div>
-
-            {/* Authorised Signatures */}
-            <div style={{ width: '38%', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'flex-end' }}>
-              <div style={{ fontSize: '1.3em', fontWeight: 700, color: '#111', marginBottom: '4px' }}>
-                For Kundavai AC Tec
-              </div>
-
-              {/* Spacer for physical signature */}
-              <div style={{ height: '30px' }}></div>
-
-              <div style={{ borderBottom: '1.5px solid #cbd5e1', width: '150px', marginBottom: '4px' }}></div>
-              <div style={{ fontSize: '1.2em', fontWeight: '700', color: '#111' }}>
-                Proprietor
-              </div>
-            </div>
-          </div>
-          </div>
-
-          {/* Bank Details at the very bottom of the A4 page */}
-          <div style={{ 
-            marginTop: '16px', 
-            borderTop: '1px solid #cbd5e1', 
-            paddingTop: '8px'
-          }}>
-            <div style={{ fontWeight: '700', fontSize: '0.92em', color: '#111', marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              Bank Account Details (For Remittance / Wire Transfer)
-            </div>
-            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88em' }}>
+              </thead>
               <tbody>
-                <tr>
-                  <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600, width: '15%' }}>Account Name:</td>
-                  <td style={{ padding: '2px 0', color: '#111', fontWeight: 700, width: '35%' }}>Kundavai AC Tec</td>
-                  <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600, width: '15%' }}>Bank Name:</td>
-                  <td style={{ padding: '2px 0', color: '#111', fontWeight: 700, width: '35%' }}>STATE BANK OF INDIA</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600 }}>Account Number:</td>
-                  <td style={{ padding: '2px 0', color: '#111', fontWeight: 700 }}>43126406283</td>
-                  <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600 }}>IFSC Code:</td>
-                  <td style={{ padding: '2px 0', color: '#111', fontWeight: 700 }}>SBIN0016545</td>
-                </tr>
-                <tr>
-                  <td style={{ padding: '2px 0', color: '#475569', fontWeight: 600 }}>Branch Name:</td>
-                  <td style={{ padding: '2px 0', color: '#111', fontWeight: 700 }} colSpan={3}>Kilkattalai</td>
-                </tr>
+                {parsedItems.map((item, idx) => (
+                  <tr key={idx} style={{ verticalAlign: 'middle', borderBottom: '1px solid #eee' }}>
+                    <td style={{ padding: '5px 4px', textAlign: 'center', borderRight: '1px solid #111' }}>{idx + 1}</td>
+                    <td style={{ padding: '5px 6px', fontWeight: '600', color: '#111', borderRight: '1px solid #111' }}>
+                      {item.title}
+                      {item.description && (
+                        <span style={{ fontSize: '0.85em', color: '#555', fontWeight: 'normal', marginLeft: '6px' }}>
+                          ({item.description})
+                        </span>
+                      )}
+                    </td>
+                    <td style={{ padding: '5px 4px', textAlign: 'center', borderRight: '1px solid #111' }}>{item.qty}</td>
+                    <td style={{ padding: '5px 6px', textAlign: 'right', borderRight: '1px solid #111' }}>
+                      {formatCurrency(item.rate)}
+                    </td>
+                    <td style={{ padding: '5px 6px', textAlign: 'right', fontWeight: '700', borderRight: '1px solid #111' }}>
+                      {formatCurrency(item.amount)}
+                    </td>
+                    {idx === 0 ? (
+                      <td 
+                        rowSpan={Math.max(6, parsedItems.length)} 
+                        style={{ 
+                          padding: '5px 6px', 
+                          textAlign: 'center', 
+                          fontWeight: '800',
+                          fontSize: '1.1em',
+                          color: '#2b3e50',
+                          verticalAlign: 'middle',
+                          backgroundColor: '#fbfbfb'
+                        }}
+                      >
+                        {formatCurrency(grandTotal)}
+                      </td>
+                    ) : null}
+                  </tr>
+                ))}
+                {/* Fill mock empty rows to match paper layout */}
+                {Array.from({ length: Math.max(0, 6 - parsedItems.length) }).map((_, idx) => {
+                  const globalIdx = parsedItems.length + idx;
+                  return (
+                    <tr key={`empty-${idx}`} style={{ height: '19px', borderBottom: '1px solid #eee' }}>
+                      <td style={{ borderRight: '1px solid #111' }}></td>
+                      <td style={{ borderRight: '1px solid #111' }}></td>
+                      <td style={{ borderRight: '1px solid #111' }}></td>
+                      <td style={{ borderRight: '1px solid #111' }}></td>
+                      <td style={{ borderRight: '1px solid #111' }}></td>
+                      {globalIdx === 0 ? (
+                        <td 
+                          rowSpan={6} 
+                          style={{ 
+                            padding: '5px 6px', 
+                            textAlign: 'center', 
+                            fontWeight: '800',
+                            fontSize: '1.1em',
+                            color: '#2b3e50',
+                            verticalAlign: 'middle',
+                            backgroundColor: '#fbfbfb'
+                          }}
+                        >
+                          {formatCurrency(grandTotal)}
+                        </td>
+                      ) : null}
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
+
+            {/* Totals & Signature Block Divider */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '2px', gap: '8px' }}>
+              
+              {/* Left Checklist and Sign block (Collected Amt / Bal) */}
+              <div style={{ width: '55%', border: '1px solid #111', padding: '6px 8px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9em', fontWeight: '700', borderBottom: '1px dotted #ccc', paddingBottom: '3px' }}>
+                  <div>COLLECTED AMOUNT: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(invoice.status === 'Paid' ? grandTotal : invoice.advance_paid)}</span></div>
+                  <div>BALANCE AMOUNT: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(invoice.status === 'Paid' ? 0 : grandTotal - invoice.advance_paid)}</span></div>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  {/* Engineer Info */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', fontSize: '0.85em' }}>
+                    <div>ENGINEER NAME: <strong style={{ color: '#111' }}>{invoice.assigned_lead || 'Arunkumar'}</strong></div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+                      <span>SIGN:</span>
+                      <span style={{ fontFamily: "'Dancing Script', cursive, sans-serif", fontSize: '1.2em', fontWeight: 'bold', color: '#1e3a8a', borderBottom: '1px solid #999', padding: '0 8px' }}>
+                        {invoice.assigned_lead ? invoice.assigned_lead.split(' ')[0] : 'Arunkumar'}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Booking checklists */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                    {renderCheckbox('CALL CLOSED', invoice.status === 'Paid')}
+                    {renderCheckbox('CHECKED AFTER COMPLETION', true)}
+                    {renderCheckbox('CALL PENDING', invoice.status !== 'Paid')}
+                  </div>
+                </div>
+              </div>
+
+              {/* Center QR Code Scan & Pay */}
+              <div style={{ 
+                width: '13%', 
+                border: '1px solid #111', 
+                padding: '4px', 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                backgroundColor: '#ffffff'
+              }}>
+                <div style={{ fontSize: '0.62em', fontWeight: '800', marginBottom: '2px', textAlign: 'center', letterSpacing: '0.2px' }}>SCAN & PAY</div>
+                <svg width="34" height="34" viewBox="0 0 29 29" style={{ display: 'block' }}>
+                  <path d="M0 0h7v7H0zm1 1v5h5V1zm1 1h3v3H2zm10 0h2v2h-2zm3 0h3v1h-3zm0 2h1v3h-1zm5-4h7v7h-7zm1 1v5h5V1zm1 1h3v3H3zm-3 8h2v2h-2zm4 0h3v1h-3zm-2 2h1v3h-1zm-9 3h2v2h-2zm4 0h3v1h-3zm-2 2h1v3h-1zM0 22h7v7H0zm1 1v5h5v-5zm1 1h3v3H2zm22 0h5v5h-5z" fill="#111"/>
+                </svg>
+              </div>
+
+              {/* Right Customer Checklist & Sign */}
+              <div style={{ width: '32%', border: '1px solid #111', padding: '6px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '62px' }}>
+                <div style={{ fontSize: '0.78em', fontWeight: '800', color: '#475569', borderBottom: '1px dotted #ccc', paddingBottom: '2px', marginBottom: '4px' }}>CUSTOMER CHECKLIST</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  {renderCheckbox('FILTER & COIL CLEANED', true)}
+                  {renderCheckbox('WATER LEAKAGE CHECKED', true)}
+                  {renderCheckbox('COOLING CHECKED', true)}
+                  {renderCheckbox('RUNNING CONDITION OK', true)}
+                </div>
+                <div style={{ borderTop: '1px solid #ddd', marginTop: '6px', paddingTop: '2px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8em' }}>
+                  <span>Customer Sign:</span>
+                  <span style={{ borderBottom: '1px solid #999', width: '50px', height: '10px' }}></span>
+                </div>
+              </div>
+            </div>
+
+            {/* Totals & Payment Modes */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #111', padding: '4px 8px', backgroundColor: '#f8fafc', marginTop: '2px' }}>
+              {/* Payment modes checkboxes */}
+              <div style={{ width: '50%', display: 'flex', alignItems: 'center' }}>
+                <span style={{ fontWeight: '700', marginRight: '8px', fontSize: '0.85em' }}>PAYMENT BY:</span>
+                {renderCheckbox('CASH', invoice.status === 'Paid')}
+                {renderCheckbox('GPAY', true)}
+                {renderCheckbox('IMPS', false)}
+                {renderCheckbox('NEFT', false)}
+              </div>
+              
+              {/* Totals */}
+              <div style={{ width: '50%', display: 'flex', justifyContent: 'flex-end', gap: '16px', fontSize: '0.9em', fontWeight: '700' }}>
+                <div>Total: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(subTotal)}</span></div>
+                <div>GST 18%: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(cgstAmount + sgstAmount + igstAmount)}</span></div>
+                <div>Grand Total: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(grandTotal)}</span></div>
+              </div>
+            </div>
+
+            {/* Footer Details */}
+            <div style={{ borderTop: '1px solid #111', marginTop: '6px', paddingTop: '6px', textAlign: 'center', fontSize: '0.85em', lineHeight: '1.4' }}>
+              <div style={{ fontWeight: '800', color: '#dc2626', fontSize: '1.05em', letterSpacing: '0.5px' }}>
+                SERVICE CALL BOOKING : 8220406664 | 8300099399
+              </div>
+              <div style={{ fontWeight: '700', color: '#333', marginTop: '2px', fontSize: '0.9em' }}>
+                NOTE : TO REPAIR A PCB BOARD, IT TAKES TWO TO FIFTEEN DAYS
+              </div>
+              <div style={{ color: '#4b5563', marginTop: '2px', fontSize: '0.85em', fontWeight: '600' }}>
+                Branches : Coimbatore | Chennai | Tiruppur | Erode | Salem | Karur
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
