@@ -1,0 +1,4 @@
+/* Custom styles specific to the App layout */
+.main-content {
+  background-color: var(--bg-primary);
+}
