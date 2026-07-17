@@ -329,14 +329,18 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
           color: '#111111',
           fontFamily: "'Inter', sans-serif",
           fontSize: '9px',
-          lineHeight: '1.3'
+          lineHeight: '1.3',
+          boxSizing: 'border-box',
+          width: '100%',
+          maxWidth: '100%',
+          overflow: 'hidden'
         }}>
-          <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '6px', boxSizing: 'border-box', width: '100%' }}>
           
             {/* Header Block */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '6px', borderBottom: '2px solid #111' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '6px', borderBottom: '2px solid #111', boxSizing: 'border-box', width: '100%' }}>
               {/* Left Logo & Brand */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', boxSizing: 'border-box' }}>
                 <img 
                   src="/logo.png" 
                   alt="Kundavai AC Tec Logo" 
@@ -357,7 +361,7 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               </div>
 
               {/* Right Address & Contact Details */}
-              <div style={{ textAlign: 'right', fontSize: '0.88em', lineHeight: '1.3', color: '#333' }}>
+              <div style={{ textAlign: 'right', fontSize: '0.88em', lineHeight: '1.3', color: '#333', boxSizing: 'border-box' }}>
                 <p style={{ margin: 0 }}>SF No.93, Sri Vari Ramakrishna Garden,</p>
                 <p style={{ margin: 0 }}>Ganapathy, Coimbatore - 641 006.</p>
                 <p style={{ margin: '1px 0 0 0', fontWeight: '600' }}>Mob: +91 98941 45664 | +91 82204 06664</p>
@@ -373,15 +377,17 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               border: '1px solid #111', 
               fontSize: '0.95em',
               fontWeight: '700',
-              backgroundColor: '#f8fafc'
+              backgroundColor: '#f8fafc',
+              boxSizing: 'border-box',
+              width: '100%'
             }}>
-              <div style={{ padding: '4px 8px', width: '33%' }}>
+              <div style={{ padding: '4px 8px', flex: 1, boxSizing: 'border-box' }}>
                 INV NO : <span style={{ fontWeight: '800', color: '#111' }}>{invoice.invoice_no}</span>
               </div>
-              <div style={{ padding: '4px 8px', width: '33%', textAlign: 'center', borderLeft: '1px solid #111', borderRight: '1px solid #111', letterSpacing: '1px' }}>
+              <div style={{ padding: '4px 8px', flex: 1, textAlign: 'center', borderLeft: '1px solid #111', borderRight: '1px solid #111', letterSpacing: '1px', boxSizing: 'border-box' }}>
                 SERVICE REPORT
               </div>
-              <div style={{ padding: '4px 8px', width: '33%', textAlign: 'right' }}>
+              <div style={{ padding: '4px 8px', flex: 1, textAlign: 'right', boxSizing: 'border-box' }}>
                 DATE : {new Date(invoice.invoice_date).toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: '2-digit' })}
               </div>
             </div>
@@ -391,10 +397,12 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               display: 'flex', 
               borderLeft: '1px solid #111', 
               borderRight: '1px solid #111', 
-              borderBottom: '1px solid #111'
+              borderBottom: '1px solid #111',
+              boxSizing: 'border-box',
+              width: '100%'
             }}>
               {/* Checkboxes List */}
-              <div style={{ width: '80%', padding: '6px 8px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px' }}>
+              <div style={{ flex: 4, padding: '6px 8px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px', boxSizing: 'border-box' }}>
                 {renderCheckbox('FREE SERVICE', isFree)}
                 {renderCheckbox('GENERAL SERVICE', isGeneral)}
                 {renderCheckbox('PUMP SERVICE', isPump)}
@@ -407,7 +415,7 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               
               {/* Time Blocks */}
               <div style={{ 
-                width: '20%', 
+                flex: 1, 
                 borderLeft: '1px solid #111', 
                 padding: '4px 8px', 
                 display: 'flex', 
@@ -415,7 +423,8 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                 justifyContent: 'center',
                 gap: '2px',
                 fontSize: '0.85em',
-                fontWeight: '600'
+                fontWeight: '600',
+                boxSizing: 'border-box'
               }}>
                 <div>IN TIME : <span style={{ fontWeight: 'normal' }}>1:10 PM</span></div>
                 <div>OUT TIME : <span style={{ fontWeight: 'normal' }}>3:50 PM</span></div>
@@ -427,10 +436,12 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               display: 'flex', 
               borderLeft: '1px solid #111', 
               borderRight: '1px solid #111', 
-              borderBottom: '1px solid #111'
+              borderBottom: '1px solid #111',
+              boxSizing: 'border-box',
+              width: '100%'
             }}>
               {/* Customer Box */}
-              <div style={{ width: '60%', padding: '6px 8px', borderRight: '1px solid #111' }}>
+              <div style={{ flex: 3, padding: '6px 8px', borderRight: '1px solid #111', boxSizing: 'border-box' }}>
                 <div style={{ fontWeight: '800', textTransform: 'uppercase', fontSize: '0.85em', color: '#475569', marginBottom: '4px' }}>
                   CUSTOMER NAME & ADDRESS
                 </div>
@@ -446,14 +457,14 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               </div>
 
               {/* Engineer Box */}
-              <div style={{ width: '40%', padding: '6px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ flex: 2, padding: '6px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box' }}>
                 <div>
                   <div style={{ fontSize: '0.85em', fontWeight: '800', color: '#475569', marginBottom: '2px' }}>SERVICE ENGG NAME</div>
                   <div style={{ fontSize: '0.95em', fontWeight: '700', color: '#111' }}>
                     {invoice.assigned_lead || 'Arunkumar / Williams'}
                   </div>
                 </div>
-                <div style={{ borderTop: '1px solid #ddd', paddingTop: '4px', display: 'flex', justifyContent: 'space-between', fontSize: '0.85em', fontWeight: '600' }}>
+                <div style={{ borderTop: '1px solid #ddd', paddingTop: '4px', display: 'flex', justifyContent: 'space-between', fontSize: '0.85em', fontWeight: '600', boxSizing: 'border-box' }}>
                   <div>VOLTAGE: <span style={{ fontWeight: 'normal' }}>230 V</span></div>
                   <div>AMPS: <span style={{ fontWeight: 'normal' }}>6.2 A</span></div>
                 </div>
@@ -468,35 +479,37 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               display: 'flex', 
               borderLeft: '1px solid #111', 
               borderRight: '1px solid #111', 
-              borderBottom: '1px solid #111'
+              borderBottom: '1px solid #111',
+              boxSizing: 'border-box',
+              width: '100%'
             }}>
               {/* Col 1 */}
-              <div style={{ width: '50%', padding: '4px 8px', borderRight: '1px solid #111' }}>
+              <div style={{ flex: 2, padding: '4px 8px', borderRight: '1px solid #111', boxSizing: 'border-box' }}>
                 <div style={{ fontSize: '0.78em', fontWeight: '800', color: '#475569', marginBottom: '2px' }}>OBSERVATION, REPORT & ACTIONS</div>
                 <div style={{ fontSize: '0.88em', color: '#111', lineHeight: '1.2' }}>
                   {invoice.project_brief || 'AC unit serviced. Cooling and airflow restored successfully. Water leakage checked & resolved.'}
                 </div>
               </div>
               {/* Col 2 */}
-              <div style={{ width: '25%', padding: '4px 8px', borderRight: '1px solid #111', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ flex: 1, padding: '4px 8px', borderRight: '1px solid #111', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box' }}>
                 <div>
                   <div style={{ fontSize: '0.78em', fontWeight: '800', color: '#475569' }}>PRODUCT MODEL NO.</div>
                   <div style={{ fontSize: '0.88em', fontWeight: '600', color: '#111', marginTop: '2px' }}>Voltas Split AC 1.5T</div>
                 </div>
-                <div style={{ borderTop: '1px dotted #ccc', paddingTop: '2px' }}>
+                <div style={{ borderTop: '1px dotted #ccc', paddingTop: '2px', boxSizing: 'border-box' }}>
                   <div style={{ fontSize: '0.75em', fontWeight: '800', color: '#475569' }}>PCB BOARD MODEL</div>
                   <div style={{ fontSize: '0.85em', color: '#111' }}>—</div>
                 </div>
               </div>
               {/* Col 3 */}
-              <div style={{ width: '25%', padding: '4px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div style={{ flex: 1, padding: '4px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', boxSizing: 'border-box' }}>
                 <div>
                   <div style={{ fontSize: '0.78em', fontWeight: '800', color: '#475569' }}>NEXT SERVICE DATE</div>
                   <div style={{ fontSize: '0.88em', fontWeight: '700', color: '#111', marginTop: '2px' }}>
                     {new Date(new Date(invoice.invoice_date).setMonth(new Date(invoice.invoice_date).getMonth() + 6)).toLocaleDateString('en-IN')}
                   </div>
                 </div>
-                <div style={{ borderTop: '1px dotted #ccc', paddingTop: '2px', display: 'flex', justifyContent: 'space-between', fontSize: '0.75em' }}>
+                <div style={{ borderTop: '1px dotted #ccc', paddingTop: '2px', display: 'flex', justifyContent: 'space-between', fontSize: '0.75em', boxSizing: 'border-box' }}>
                   <div>COMPLAINT: <span style={{ fontWeight: '600' }}>{new Date(invoice.invoice_date).toLocaleDateString('en-IN')}</span></div>
                   <div>DELIVERY: <span style={{ fontWeight: '600' }}>{new Date(invoice.invoice_date).toLocaleDateString('en-IN')}</span></div>
                 </div>
@@ -509,7 +522,8 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               borderCollapse: 'collapse', 
               border: '1px solid #111', 
               marginTop: '4px',
-              fontSize: '0.92em'
+              fontSize: '0.92em',
+              boxSizing: 'border-box'
             }}>
               <thead>
                 <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #111' }}>
@@ -550,7 +564,8 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                           fontSize: '1.1em',
                           color: '#2b3e50',
                           verticalAlign: 'middle',
-                          backgroundColor: '#fbfbfb'
+                          backgroundColor: '#fbfbfb',
+                          borderLeft: '1px solid #111'
                         }}
                       >
                         {formatCurrency(grandTotal)}
@@ -578,7 +593,8 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                             fontSize: '1.1em',
                             color: '#2b3e50',
                             verticalAlign: 'middle',
-                            backgroundColor: '#fbfbfb'
+                            backgroundColor: '#fbfbfb',
+                            borderLeft: '1px solid #111'
                           }}
                         >
                           {formatCurrency(grandTotal)}
@@ -591,20 +607,20 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
             </table>
 
             {/* Totals & Signature Block Divider */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginTop: '2px', gap: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'stretch', marginTop: '2px', gap: '8px', boxSizing: 'border-box', width: '100%' }}>
               
               {/* Left Checklist and Sign block (Collected Amt / Bal) */}
-              <div style={{ width: '55%', border: '1px solid #111', padding: '6px 8px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9em', fontWeight: '700', borderBottom: '1px dotted #ccc', paddingBottom: '3px' }}>
+              <div style={{ flex: 55, border: '1px solid #111', padding: '6px 8px', display: 'flex', flexDirection: 'column', gap: '6px', boxSizing: 'border-box' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9em', fontWeight: '700', borderBottom: '1px dotted #ccc', paddingBottom: '3px', boxSizing: 'border-box' }}>
                   <div>COLLECTED AMOUNT: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(invoice.status === 'Paid' ? grandTotal : invoice.advance_paid)}</span></div>
                   <div>BALANCE AMOUNT: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(invoice.status === 'Paid' ? 0 : grandTotal - invoice.advance_paid)}</span></div>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', boxSizing: 'border-box' }}>
                   {/* Engineer Info */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', fontSize: '0.85em' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', fontSize: '0.85em', boxSizing: 'border-box' }}>
                     <div>ENGINEER NAME: <strong style={{ color: '#111' }}>{invoice.assigned_lead || 'Arunkumar'}</strong></div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px', boxSizing: 'border-box' }}>
                       <span>SIGN:</span>
                       <span style={{ fontFamily: "'Dancing Script', cursive, sans-serif", fontSize: '1.2em', fontWeight: 'bold', color: '#1e3a8a', borderBottom: '1px solid #999', padding: '0 8px' }}>
                         {invoice.assigned_lead ? invoice.assigned_lead.split(' ')[0] : 'Arunkumar'}
@@ -613,7 +629,7 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                   </div>
 
                   {/* Booking checklists */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', boxSizing: 'border-box' }}>
                     {renderCheckbox('CALL CLOSED', invoice.status === 'Paid')}
                     {renderCheckbox('CHECKED AFTER COMPLETION', true)}
                     {renderCheckbox('CALL PENDING', invoice.status !== 'Paid')}
@@ -623,14 +639,15 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
 
               {/* Center QR Code Scan & Pay */}
               <div style={{ 
-                width: '13%', 
+                flex: 13, 
                 border: '1px solid #111', 
                 padding: '4px', 
                 display: 'flex', 
                 flexDirection: 'column', 
                 alignItems: 'center', 
                 justifyContent: 'center',
-                backgroundColor: '#ffffff'
+                backgroundColor: '#ffffff',
+                boxSizing: 'border-box'
               }}>
                 <div style={{ fontSize: '0.62em', fontWeight: '800', marginBottom: '2px', textAlign: 'center', letterSpacing: '0.2px' }}>SCAN & PAY</div>
                 <svg width="34" height="34" viewBox="0 0 29 29" style={{ display: 'block' }}>
@@ -639,15 +656,15 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               </div>
 
               {/* Right Customer Checklist & Sign */}
-              <div style={{ width: '32%', border: '1px solid #111', padding: '6px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '62px' }}>
+              <div style={{ flex: 32, border: '1px solid #111', padding: '6px 8px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: '62px', boxSizing: 'border-box' }}>
                 <div style={{ fontSize: '0.78em', fontWeight: '800', color: '#475569', borderBottom: '1px dotted #ccc', paddingBottom: '2px', marginBottom: '4px' }}>CUSTOMER CHECKLIST</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', boxSizing: 'border-box' }}>
                   {renderCheckbox('FILTER & COIL CLEANED', true)}
                   {renderCheckbox('WATER LEAKAGE CHECKED', true)}
                   {renderCheckbox('COOLING CHECKED', true)}
                   {renderCheckbox('RUNNING CONDITION OK', true)}
                 </div>
-                <div style={{ borderTop: '1px solid #ddd', marginTop: '6px', paddingTop: '2px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8em' }}>
+                <div style={{ borderTop: '1px solid #ddd', marginTop: '6px', paddingTop: '2px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8em', boxSizing: 'border-box' }}>
                   <span>Customer Sign:</span>
                   <span style={{ borderBottom: '1px solid #999', width: '50px', height: '10px' }}></span>
                 </div>
@@ -655,9 +672,9 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
             </div>
 
             {/* Totals & Payment Modes */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #111', padding: '4px 8px', backgroundColor: '#f8fafc', marginTop: '2px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', border: '1px solid #111', padding: '4px 8px', backgroundColor: '#f8fafc', marginTop: '2px', boxSizing: 'border-box', width: '100%' }}>
               {/* Payment modes checkboxes */}
-              <div style={{ width: '50%', display: 'flex', alignItems: 'center' }}>
+              <div style={{ flex: 1, display: 'flex', alignItems: 'center', boxSizing: 'border-box' }}>
                 <span style={{ fontWeight: '700', marginRight: '8px', fontSize: '0.85em' }}>PAYMENT BY:</span>
                 {renderCheckbox('CASH', invoice.status === 'Paid')}
                 {renderCheckbox('GPAY', true)}
@@ -666,7 +683,7 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               </div>
               
               {/* Totals */}
-              <div style={{ width: '50%', display: 'flex', justifyContent: 'flex-end', gap: '16px', fontSize: '0.9em', fontWeight: '700' }}>
+              <div style={{ flex: 1, display: 'flex', justifyContent: 'flex-end', gap: '16px', fontSize: '0.9em', fontWeight: '700', boxSizing: 'border-box' }}>
                 <div>Total: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(subTotal)}</span></div>
                 <div>GST 18%: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(cgstAmount + sgstAmount + igstAmount)}</span></div>
                 <div>Grand Total: <span style={{ fontWeight: '800', color: '#111' }}>{formatCurrency(grandTotal)}</span></div>
@@ -674,7 +691,7 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
             </div>
 
             {/* Footer Details */}
-            <div style={{ borderTop: '1px solid #111', marginTop: '6px', paddingTop: '6px', textAlign: 'center', fontSize: '0.85em', lineHeight: '1.4' }}>
+            <div style={{ borderTop: '1px solid #111', marginTop: '6px', paddingTop: '6px', textAlign: 'center', fontSize: '0.85em', lineHeight: '1.4', boxSizing: 'border-box', width: '100%' }}>
               <div style={{ fontWeight: '800', color: '#dc2626', fontSize: '1.05em', letterSpacing: '0.5px' }}>
                 SERVICE CALL BOOKING : 8220406664 | 8300099399
               </div>
