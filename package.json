@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "postinstall": "npm install --prefix server",
+    "postinstall": "node -e \"if (!process.env.VERCEL && !process.env.IN_POSTINSTALL) { process.env.IN_POSTINSTALL='1'; require('child_process').execSync('npm install --prefix server', {stdio: 'inherit', env: {...process.env, IN_POSTINSTALL: '1'}}); }\"",
     "dev:frontend": "vite --host",
     "dev:backend": "npm run --prefix server dev",
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
