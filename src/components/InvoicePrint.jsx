@@ -658,9 +658,37 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                 boxSizing: 'border-box'
               }}>
                 <div style={{ fontSize: '0.62em', fontWeight: '800', marginBottom: '2px', textAlign: 'center', letterSpacing: '0.2px' }}>SCAN & PAY</div>
-                <svg width="34" height="34" viewBox="0 0 29 29" style={{ display: 'block' }}>
-                  <path d="M0 0h7v7H0zm1 1v5h5V1zm1 1h3v3H2zm10 0h2v2h-2zm3 0h3v1h-3zm0 2h1v3h-1zm5-4h7v7h-7zm1 1v5h5V1zm1 1h3v3H3zm-3 8h2v2h-2zm4 0h3v1h-3zm-2 2h1v3h-1zm-9 3h2v2h-2zm4 0h3v1h-3zm-2 2h1v3h-1zM0 22h7v7H0zm1 1v5h5v-5zm1 1h3v3H2zm22 0h5v5h-5z" fill="#111"/>
-                </svg>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', width: '32px', height: '32px', gap: '1px', border: '1px solid #111', padding: '2px', backgroundColor: '#fff', boxSizing: 'border-box' }}>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div></div>
+                  
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                  <div></div>
+                  <div style={{ backgroundColor: '#111' }}></div>
+                </div>
               </div>
 
               {/* Right Customer Checklist & Sign */}
