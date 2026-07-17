@@ -523,7 +523,8 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               border: '1px solid #111', 
               marginTop: '4px',
               fontSize: '0.92em',
-              boxSizing: 'border-box'
+              boxSizing: 'border-box',
+              tableLayout: 'fixed'
             }}>
               <thead>
                 <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #111' }}>
@@ -539,12 +540,19 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                 {parsedItems.map((item, idx) => (
                   <tr key={idx} style={{ verticalAlign: 'middle', borderBottom: '1px solid #eee' }}>
                     <td style={{ padding: '5px 4px', textAlign: 'center', borderRight: '1px solid #111' }}>{idx + 1}</td>
-                    <td style={{ padding: '5px 6px', fontWeight: '600', color: '#111', borderRight: '1px solid #111' }}>
+                    <td style={{ 
+                      padding: '5px 6px', 
+                      fontWeight: '600', 
+                      color: '#111', 
+                      borderRight: '1px solid #111', 
+                      wordBreak: 'break-word', 
+                      whiteSpace: 'normal' 
+                    }}>
                       {item.title}
                       {item.description && (
-                        <span style={{ fontSize: '0.85em', color: '#555', fontWeight: 'normal', marginLeft: '6px' }}>
+                        <div style={{ fontSize: '0.85em', color: '#555', fontWeight: 'normal', marginTop: '2px', wordBreak: 'break-word', whiteSpace: 'normal' }}>
                           ({item.description})
-                        </span>
+                        </div>
                       )}
                     </td>
                     <td style={{ padding: '5px 4px', textAlign: 'center', borderRight: '1px solid #111' }}>{item.qty}</td>
