@@ -517,14 +517,22 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
               boxSizing: 'border-box',
               tableLayout: 'fixed'
             }}>
+              <colgroup>
+                <col style={{ width: '6%' }} />
+                <col style={{ width: '46%' }} />
+                <col style={{ width: '6%' }} />
+                <col style={{ width: '14%' }} />
+                <col style={{ width: '14%' }} />
+                <col style={{ width: '14%' }} />
+              </colgroup>
               <thead>
                 <tr style={{ backgroundColor: '#f8fafc', borderBottom: '1px solid #111' }}>
-                  <th style={{ padding: '5px 4px', fontWeight: '800', textAlign: 'center', borderRight: '1px solid #111', width: '8%' }}>S.NO</th>
-                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'left', borderRight: '1px solid #111', width: '48%' }}>DESCRIPTION</th>
-                  <th style={{ padding: '5px 4px', fontWeight: '800', textAlign: 'center', borderRight: '1px solid #111', width: '8%' }}>QTY</th>
-                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'right', borderRight: '1px solid #111', width: '13%' }}>RATE</th>
-                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'right', borderRight: '1px solid #111', width: '13%' }}>TOTAL VALUE</th>
-                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'center', width: '10%' }}>TOWARDS Rs.</th>
+                  <th style={{ padding: '5px 4px', fontWeight: '800', textAlign: 'center', borderRight: '1px solid #111', verticalAlign: 'middle' }}>S.NO</th>
+                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'left', borderRight: '1px solid #111', verticalAlign: 'middle' }}>DESCRIPTION</th>
+                  <th style={{ padding: '5px 4px', fontWeight: '800', textAlign: 'center', borderRight: '1px solid #111', verticalAlign: 'middle' }}>QTY</th>
+                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'right', borderRight: '1px solid #111', verticalAlign: 'middle' }}>RATE</th>
+                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'right', borderRight: '1px solid #111', verticalAlign: 'middle' }}>TOTAL VALUE</th>
+                  <th style={{ padding: '5px 6px', fontWeight: '800', textAlign: 'center', verticalAlign: 'middle' }}>TOWARDS Rs.</th>
                 </tr>
               </thead>
               <tbody>
