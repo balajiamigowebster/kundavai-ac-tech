@@ -322,20 +322,23 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
           </div>
         </div>
 
-        {/* Invoice Printable Sheet */}
-        <div ref={printableRef} className="invoice-modal-body printable-invoice" style={{
-          padding: '16px 20px',
-          backgroundColor: '#ffffff',
-          color: '#111111',
-          fontFamily: "'Inter', sans-serif",
-          fontSize: '9px',
-          lineHeight: '1.3',
-          boxSizing: 'border-box',
-          width: '100%',
-          maxWidth: '100%',
-          overflow: 'hidden'
-        }}>
-          <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '6px', boxSizing: 'border-box', width: '100%' }}>
+        {/* Scrollable Container on Screen (Not printed) */}
+        <div className="invoice-modal-body" style={{ overflow: 'auto', flex: 1, padding: '16px', backgroundColor: '#f1f5f9' }}>
+          {/* Invoice Printable Sheet */}
+          <div ref={printableRef} className="printable-invoice" style={{
+            padding: '16px 20px',
+            backgroundColor: '#ffffff',
+            color: '#111111',
+            fontFamily: "'Inter', sans-serif",
+            fontSize: '9px',
+            lineHeight: '1.3',
+            boxSizing: 'border-box',
+            width: '760px',
+            minWidth: '760px',
+            margin: '0 auto',
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+          }}>
+            <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '6px', boxSizing: 'border-box', width: '100%' }}>
           
             {/* Header Block */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '6px', borderBottom: '2px solid #111', boxSizing: 'border-box', width: '100%' }}>
@@ -743,5 +746,6 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
         </div>
       </div>
     </div>
+  </div>
   );
 }
