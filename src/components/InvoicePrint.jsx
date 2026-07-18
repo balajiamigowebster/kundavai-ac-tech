@@ -561,23 +561,17 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                     <td style={{ padding: '5px 6px', textAlign: 'right', fontWeight: '700', borderRight: '1px solid #111' }}>
                       {formatCurrency(item.amount)}
                     </td>
-                    {idx === 0 ? (
-                      <td 
-                        rowSpan={Math.max(6, parsedItems.length)} 
-                        style={{ 
-                          padding: '5px 6px', 
-                          textAlign: 'center', 
-                          fontWeight: '800',
-                          fontSize: '1.1em',
-                          color: '#2b3e50',
-                          verticalAlign: 'middle',
-                          backgroundColor: '#fbfbfb',
-                          borderLeft: '1px solid #111'
-                        }}
-                      >
-                        {formatCurrency(grandTotal)}
-                      </td>
-                    ) : null}
+                    <td style={{ 
+                      padding: '5px 6px', 
+                      textAlign: 'center', 
+                      fontWeight: '800',
+                      fontSize: '1.1em',
+                      color: '#2b3e50',
+                      verticalAlign: 'middle',
+                      backgroundColor: '#fbfbfb'
+                    }}>
+                      {idx === 0 ? formatCurrency(grandTotal) : ''}
+                    </td>
                   </tr>
                 ))}
                 {/* Fill mock empty rows to match paper layout */}
@@ -590,23 +584,17 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                       <td style={{ borderRight: '1px solid #111' }}></td>
                       <td style={{ borderRight: '1px solid #111' }}></td>
                       <td style={{ borderRight: '1px solid #111' }}></td>
-                      {globalIdx === 0 ? (
-                        <td 
-                          rowSpan={6} 
-                          style={{ 
-                            padding: '5px 6px', 
-                            textAlign: 'center', 
-                            fontWeight: '800',
-                            fontSize: '1.1em',
-                            color: '#2b3e50',
-                            verticalAlign: 'middle',
-                            backgroundColor: '#fbfbfb',
-                            borderLeft: '1px solid #111'
-                          }}
-                        >
-                          {formatCurrency(grandTotal)}
-                        </td>
-                      ) : null}
+                      <td style={{ 
+                        backgroundColor: '#fbfbfb',
+                        padding: '5px 6px', 
+                        textAlign: 'center', 
+                        fontWeight: '800',
+                        fontSize: '1.1em',
+                        color: '#2b3e50',
+                        verticalAlign: 'middle'
+                      }}>
+                        {parsedItems.length === 0 && idx === 0 ? formatCurrency(grandTotal) : ''}
+                      </td>
                     </tr>
                   );
                 })}
