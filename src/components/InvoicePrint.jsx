@@ -172,36 +172,24 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
       pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
       const pdfBlob = pdf.output('blob');
       const filename = `Invoice-${invoice.invoice_no}.pdf`;
-      const pdfFile = new File([pdfBlob], filename, { type: 'application/pdf' });
+      const blobUrl = URL.createObjectURL(pdfBlob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = blobUrl;
+      downloadLink.download = filename;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+      URL.revokeObjectURL(blobUrl);
 
-      const shareData = {
-        files: [pdfFile],
-        title: `Invoice ${invoice.invoice_no}`,
-        text: messageText
-      };
-
-      if (navigator.canShare && navigator.canShare(shareData)) {
-        await navigator.share(shareData);
-      } else {
-        const blobUrl = URL.createObjectURL(pdfBlob);
-        const downloadLink = document.createElement('a');
-        downloadLink.href = blobUrl;
-        downloadLink.download = filename;
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
-        document.body.removeChild(downloadLink);
-        URL.revokeObjectURL(blobUrl);
-
-        try {
-          await navigator.clipboard.writeText(messageText);
-          alert("Invoice PDF downloaded successfully! The invoice summary text has been copied to your clipboard.\n\nOpening WhatsApp... Please paste the summary and attach the downloaded PDF in the chat.");
-        } catch (clipErr) {
-          alert("Invoice PDF downloaded successfully!\n\nOpening WhatsApp... Please attach the downloaded PDF in the chat.");
-        }
-
-        const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(messageText)}`;
-        window.open(whatsappUrl, '_blank');
+      try {
+        await navigator.clipboard.writeText(messageText);
+        alert(`Invoice PDF downloaded successfully! The invoice summary text has been copied to your clipboard.\n\nOpening WhatsApp chat for ${invoice.customer_name} (+${formattedPhone})...\n\nPlease paste the summary (Ctrl+V) and attach the downloaded PDF in the chat.`);
+      } catch (clipErr) {
+        alert(`Invoice PDF downloaded successfully!\n\nOpening WhatsApp chat for ${invoice.customer_name} (+${formattedPhone})...\n\nPlease attach the downloaded PDF in the chat.`);
       }
+
+      const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodeURIComponent(messageText)}`;
+      window.open(whatsappUrl, '_blank');
     } catch (err) {
       console.error("Error generating/sharing PDF:", err);
       alert("Failed to generate PDF. Opening text message fallback...");
