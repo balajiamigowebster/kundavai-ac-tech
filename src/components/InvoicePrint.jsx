@@ -323,10 +323,14 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
             boxSizing: 'border-box',
             width: '760px',
             minWidth: '760px',
+            height: '1020px',
+            minHeight: '1020px',
             margin: '0 auto',
-            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)'
+            boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+            display: 'flex',
+            flexDirection: 'column'
           }}>
-            <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '6px', boxSizing: 'border-box', width: '100%' }}>
+            <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'column', gap: '6px', boxSizing: 'border-box', width: '100%', height: '100%' }}>
           
             {/* Header Block */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '6px', borderBottom: '2px solid #111', boxSizing: 'border-box', width: '100%' }}>
@@ -714,7 +718,7 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
             </div>
 
             {/* Footer Details */}
-            <div style={{ borderTop: '1px solid #111', marginTop: '6px', paddingTop: '6px', textAlign: 'center', fontSize: '0.85em', lineHeight: '1.4', boxSizing: 'border-box', width: '100%' }}>
+            <div style={{ borderTop: '1px solid #111', marginTop: 'auto', paddingTop: '6px', textAlign: 'center', fontSize: '0.85em', lineHeight: '1.4', boxSizing: 'border-box', width: '100%' }}>
               <div style={{ fontWeight: '800', color: '#dc2626', fontSize: '1.05em', letterSpacing: '0.5px' }}>
                 SERVICE CALL BOOKING : 8220406664 | 8300099399
               </div>

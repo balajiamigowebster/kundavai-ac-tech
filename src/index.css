@@ -709,7 +709,9 @@ tr:hover td {
   }
   
   .printable-invoice {
-    min-height: 250mm !important;
+    height: 265mm !important;
+    min-height: 265mm !important;
+    max-height: 265mm !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: flex-start !important;
@@ -720,6 +722,8 @@ tr:hover td {
     box-shadow: none !important;
     margin: 0 !important;
     padding: 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   .printable-invoice,
