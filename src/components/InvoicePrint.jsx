@@ -568,9 +568,7 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                     <td style={{ 
                       padding: '5px 6px', 
                       textAlign: 'center', 
-                      fontWeight: '800',
-                      fontSize: '1.1em',
-                      color: '#2b3e50',
+                      fontWeight: '700',
                       verticalAlign: 'middle',
                       backgroundColor: '#fbfbfb'
                     }}>
@@ -592,9 +590,7 @@ export default function InvoicePrint({ invoice, onClose, autoShare }) {
                         backgroundColor: '#fbfbfb',
                         padding: '5px 6px', 
                         textAlign: 'center', 
-                        fontWeight: '800',
-                        fontSize: '1.1em',
-                        color: '#2b3e50',
+                        fontWeight: '700',
                         verticalAlign: 'middle'
                       }}>
                         {parsedItems.length === 0 && idx === 0 ? formatCurrency(grandTotal) : ''}
